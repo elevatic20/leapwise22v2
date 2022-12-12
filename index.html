@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="lamp.png">
+    <link rel=”stylesheet” href=”htpps://pyscript.net/alpha/pyscript.css” />
+    <title>Lampica</title>
+</head>
+
+<body onload="MQTTconnect()">
+    <div class="color-switcher">
+       <div class="switcher-btn">
+        <i class="fas fa-cog"></i>
+       </div>
+       <h3>odaberi boju</h3>
+
+       <div class="theme-buttons-container">
+        <span class="theme-buttons" data-color="#fff" style="background: #fff ;" id="white"></span>
+        <span class="theme-buttons" data-color="#ff0000" style="background: red ;" id="red"></span>
+        <span class="theme-buttons" data-color="#00ff00" style="background: green ;" id="green"></span>
+        <span class="theme-buttons" data-color="#0000ff" style="background: blue ;" id="blue"></span>
+        <span class="theme-buttons" data-color="#ffff00" style="background: #ffff00 ;" id="yellow"></span>
+        <span class="theme-buttons" data-color="#ff00ff" style="background: #b100b1 ;" id="purple"></span>
+        <span class="theme-buttons" data-color="#00ffff" style="background: #00ffff ;" id="cyan"></span>
+        
+       </div>
+    </div>
+    <div class="container">
+        <h1>Lampica
+            <br>
+            <label class="switch" for="klizac">
+                <input id="klizac" type="checkbox" style="text-align:center;" name="klizac">
+                <span class="slider round"></span>
+              </label>
+        </h1>
+    </div>
+
+    <script src="JavaScript/main.js"></script>
+    <script src="JavaScript/mqtt_publish.js" type="text/javascript"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js"></script>
+
+    <!-- vjerojatno ne treba ali nek bude tu, za mosquitto
+    <script type="text/javascript" src="https://test.mosquitto.org/sys/d3/d3.js"></script>
+    <script type="text/javascript" src="https://test.mosquitto.org/sys/d3/d3.layout.js"></script>
+    <script type="text/javascript" src="https://test.mosquitto.org/sys/mqttws31.js"></script>
+    <script type="text/javascript" src="https://test.mosquitto.org/sys/topic-tree.js"></script>
+    -->
+</body>
+</html>
