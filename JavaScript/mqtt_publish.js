@@ -1,7 +1,7 @@
 var mqtt;
 var reconnectTimeout = 2000;
 var host = "test.mosquitto.org";
-var port = 1883;
+var port = 8080;
 
             function onConnect() {
                 console.log("Connected");
