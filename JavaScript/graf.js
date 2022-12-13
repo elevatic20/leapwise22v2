@@ -1,6 +1,6 @@
-const ctx = document.getElementById('barchart');
+const ctx = document.getElementById('myChart');
 
-  const myChart = new Chart(ctx, {
+  new Chart(ctx, {
     type: 'bar',
     data: {
       labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
