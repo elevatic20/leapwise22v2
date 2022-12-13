@@ -1,5 +1,6 @@
 const cb = document.querySelector('#klizac');
 const graf = document.getElementById("chart");
+graf.style.display = "none";
         cb.addEventListener('click', ()=>{
                 if(cb.checked == true){
                     document.querySelector(':root').style.setProperty('--main-color' , "#ffffff");
