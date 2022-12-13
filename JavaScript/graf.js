@@ -1,13 +1,16 @@
 const ctx = document.getElementById('myChart');
 
   new Chart(ctx, {
-    type: 'bar',
+    type: 'line',
     data: {
-      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+      labels: ['Ponedjeljak', 'Utorak', 'Srijeda', 'Četvrtak', 'Petak', 'Subota', 'Nedjelja'],
       datasets: [{
-        label: '# of Votes',
-        data: [12, 19, 3, 5, 2, 3],
-        borderWidth: 1
+        label: '# sati rada Lampice',
+        data: [5, 20, 3, 8, 14, 7, 13],
+        borderColor: 'rgb(75, 192, 192)',
+        borderWidth: 4,
+        tension: 0.1,
+        
       }]
     },
     options: {

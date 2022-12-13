@@ -1,8 +1,9 @@
 const cb = document.querySelector('#klizac');
+const graf = document.getElementById("chart");
         cb.addEventListener('click', ()=>{
                 if(cb.checked == true){
                     document.querySelector(':root').style.setProperty('--main-color' , "#ffffff");
-
+                    graf.style.display = "block";
                     document.querySelector('.switcher-btn').onclick = () =>{
                         document.querySelector('.color-switcher').classList.toggle('active');
                     };
@@ -19,6 +20,7 @@ const cb = document.querySelector('#klizac');
                 }else{
                     document.querySelector(':root').style.setProperty('--main-color' , "#808080");
                     document.querySelector('.color-switcher').classList.remove('active');
+                    graf.style.display = "none";
                     document.querySelector('.switcher-btn').onclick = () =>{
                         document.querySelector('.color-switcher').classList.remove('active');
                     };

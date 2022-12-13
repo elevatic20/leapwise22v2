@@ -151,3 +151,31 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+
+
+/*Chart*/
+
+.chart{
+  text-align: center;
+  margin-left: 50px;
+  margin-right: 50px;
+}
+
+#myChart{
+  margin-left: 300px;
+  margin-top: 75px;
+  margin-right: 300px;
+  margin-bottom: 110px;
+  box-shadow: 0 10px 15px rgba(0,0,0,.3);
+  background: whitesmoke;
+}
+
+.chart h1{
+  background: whitesmoke;
+  text-align: center;
+  box-shadow: 0 10px 15px rgba(0,0,0,.3);
+  border-radius: 10px;
+  font-size: 3em;
+  padding: .5em .8em ;
+}
+
