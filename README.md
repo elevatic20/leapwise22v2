@@ -1,1 +1,6 @@
-# leapwise22v2
+# Leapwise project - smart bulb
+
+Needed:
+- Raspberry Pi 3B+
+- LED
+
