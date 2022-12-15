@@ -1,7 +1,7 @@
 var mqtt;
 var reconnectTimeout = 2000;
 var host = "broker.hivemq.com";
-var port = 8000;
+var port = 8884;
 
 function onConnect() {
     console.log("Connected");
