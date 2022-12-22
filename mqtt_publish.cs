@@ -11,6 +11,7 @@ namespace MqttTest
         private void mqttConnect(){
             client = new MqttClient("broker.hivemq.com");
             client.Connect("newID");
+            Response.Write("Connected");
         }
 
         private void mqttPublish(string message){
