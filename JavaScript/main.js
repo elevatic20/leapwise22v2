@@ -18,19 +18,6 @@ const cb = document.querySelector('#klizac');
                     });
                 });
 
-                // dodavanje apija
-                const request = new XHMLHttpRequest();
-                request.open("POST", "https://lampicabackendapi.azurewebsites.net/ledOn");
-                        request.send();
-                        request.onload = () => {
-                                if (request.status === 200){
-                                console.log(JSON.parse(request.response));
-                                }
-                        } else {
-                                console.log(request);
-                                console.log('error ${request.status}');
-                        }
-
                 }else{
                     document.querySelector(':root').style.setProperty('--main-color' , "#808080");
                     document.querySelector('.color-switcher').classList.remove('active');
@@ -39,4 +26,4 @@ const cb = document.querySelector('#klizac');
                         document.querySelector('.color-switcher').classList.remove('active');
                     };
                 }
-            }});
+            });
