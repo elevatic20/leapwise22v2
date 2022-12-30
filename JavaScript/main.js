@@ -17,14 +17,21 @@ const cb = document.querySelector('#klizac');
                             console.log('error ${request.status}');
                         }
                     }
-                   async function getData(){ 
-                        const response = await fetch("https://lampicabackendapi.azurewebsites.net/data");
-                        const data = await response.json();
-                        console.log(data);
-                   }
-                   getData();
-
+                   
                 }else{
+                    const request = new XMLHttpRequest();
+                    request.open("POST", "https://lampicabackendapi.azurewebsites.net/ledOn" );
+                    request.send();
+                    request.onload = () =>{
+                        if(request.status === 200){
+                            console.log("Ubacen podatak u tablicu!");
+                        }
+                        else{
+                            console.log(request);
+                            console.log('error ${request.status}');
+                        }
+                    }
+                    
                     document.querySelector(':root').style.setProperty('--main-color' , "#808080");
                     document.querySelector('.color-switcher').classList.remove('active');
                     // graf.style.display = "none";
