@@ -20,7 +20,7 @@ const cb = document.querySelector('#klizac');
                    
                 }else{
                     const request = new XMLHttpRequest();
-                    request.open("POST", "https://lampicabackendapi.azurewebsites.net/ledOn" );
+                    request.open("POST", "https://lampicabackendapi.azurewebsites.net/ledOff" );
                     request.send();
                     request.onload = () =>{
                         if(request.status === 200){
