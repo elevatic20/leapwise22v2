@@ -19,15 +19,6 @@ const cb = document.querySelector('#klizac');
                     }
                     
                     fetch('https://lampicabackendapi.azurewebsites.net/data')
-                        .then(res => {
-                            if(res.ok) {
-                                    console.log('success');
-                                    
-                            }
-                            else {
-                                    console.log("Not successful");
-                            }
-                    })
                          .then(res => console.log(res))
                         .catch (error => console.log('ERROR'))
 
