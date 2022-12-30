@@ -22,12 +22,13 @@ const cb = document.querySelector('#klizac');
                         .then(res => {
                             if(res.ok) {
                                     console.log('success');
+                                    
                             }
                             else {
                                     console.log("Not successful");
                             }
                     })
-                         .then(data =>console.log(data))
+                         .then(data =>console.log(res))
                         .catch (error => console.log('ERROR'))
 
                     document.querySelector('.switcher-btn').onclick = () =>{
