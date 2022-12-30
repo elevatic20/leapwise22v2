@@ -7,6 +7,15 @@ const cb = document.querySelector('#klizac');
                     // graf.style.display = "block";
                     document.querySelector('.switcher-btn').onclick = () =>{
                         document.querySelector('.color-switcher').classList.toggle('active');
+                    
+                    // dodavanje apija
+                    fetch('https://https://lampicabackendapi.azurewebsites.net/ledOn)
+                        .then(function (result) {
+                        console.log(result);
+                        })
+                        .catch(function (err) {
+                         console.error(err);
+                        });
                     };
 
                     let themeButtons = document.querySelectorAll('.theme-buttons');
