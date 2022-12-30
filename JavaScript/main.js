@@ -38,4 +38,4 @@ const cb = document.querySelector('#klizac');
                         document.querySelector('.color-switcher').classList.remove('active');
                     };
                 }
-            });
+            }});
