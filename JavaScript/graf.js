@@ -10,7 +10,7 @@ async function getData(){
                               labels: ['Ponedjeljak', 'Utorak', 'Srijeda', 'Četvrtak', 'Petak', 'Subota', 'Nedjelja'],
                               datasets: [{
                                 label: '# sati rada Lampice',
-                                data: [data.Monday, data.Tuesday, data.Wednedsay, data.Thursday, data.Friday, data.Saturday, data.Sunday],
+                                data: [data.Monday, data.Tuesday, data.Wednesay, data.Thursday, data.Friday, data.Saturday, data.Sunday],
                                 borderColor: 'rgb(75, 192, 192)',
                                 borderWidth: 4,
                                 tension: 0.1,
