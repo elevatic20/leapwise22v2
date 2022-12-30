@@ -9,7 +9,17 @@ const cb = document.querySelector('#klizac');
                         document.querySelector('.color-switcher').classList.toggle('active');
                     
                     // dodavanje apija
-                    fetch('https://lampicabackendapi.azurewebsites.net/ledOn');
+                    const request = new XHMLHttpRequest();
+                    request.open("POST", "");
+                            request.send();
+                            request.onload = () => {
+                                    if (request.status === 200){
+                                    console.log(JSON.parse(request.response));
+                                    }
+                            } else {
+                                    console.log(request)
+                                    console.log('error ${request.status}')
+                            }
                     };
 
                     let themeButtons = document.querySelectorAll('.theme-buttons');
