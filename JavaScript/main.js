@@ -18,11 +18,9 @@ const cb = document.querySelector('#klizac');
                         }
                     }
                     
-                    var bodycontent;
-                        $("<div>").load("https://lampicabackendapi.azurewebsites.net/data body", function (data) {
-                        bodycontent = data;
-                    });
-                        console.log(data);
+                   const response = await fetch(https://lampicabackendapi.azurewebsites.net/data);
+                   const data = await response.json();
+                   console.log(data);
 
                 }else{
                     document.querySelector(':root').style.setProperty('--main-color' , "#808080");
