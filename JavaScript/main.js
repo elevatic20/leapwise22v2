@@ -17,10 +17,12 @@ const cb = document.querySelector('#klizac');
                             console.log('error ${request.status}');
                         }
                     }
-                    
-                   const response = await fetch("https://lampicabackendapi.azurewebsites.net/data");
-                   const data = await response.json();
-                   console.log(data);
+                   async function getData(){ 
+                        const response = await fetch("https://lampicabackendapi.azurewebsites.net/data");
+                        const data = await response.json();
+                        console.log(data);
+                   }
+                   getData();
 
                 }else{
                     document.querySelector(':root').style.setProperty('--main-color' , "#808080");
