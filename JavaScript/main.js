@@ -10,7 +10,7 @@ const cb = document.querySelector('#klizac');
                     request.send();
                     request.onload = () =>{
                         if(request.status === 200){
-                            console.log("Ubacen podatak u tablicu!");
+                            console.log("Lampica upaljena!");
                         }
                         else{
                             console.log(request);
@@ -24,7 +24,7 @@ const cb = document.querySelector('#klizac');
                     request.send();
                     request.onload = () =>{
                         if(request.status === 200){
-                            console.log("Ubacen podatak u tablicu!");
+                            console.log("Lampica ugasena!");
                         }
                         else{
                             console.log(request);
