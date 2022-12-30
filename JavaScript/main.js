@@ -15,7 +15,6 @@ const cb = document.querySelector('#klizac');
                             request.onload = () => {
                                     if (request.status === 200){
                                     console.log(JSON.parse(request.response));
-                                    }
                             } else {
                                     console.log(request)
                                     console.log('error ${request.status}')
