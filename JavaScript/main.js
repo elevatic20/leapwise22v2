@@ -17,6 +17,18 @@ const cb = document.querySelector('#klizac');
                             console.log('error ${request.status}');
                         }
                     }
+                    
+                    fetch('https://lampicabackendapi.azurewebsites.net/data')
+                        .then(res => {
+                            if(res.ok) {
+                                    console.log('success');
+                            }
+                            else {
+                                    console.log("Not successful");
+                            }
+                    })
+                         .then(data =>console.log(data))
+                        .catch (error => console.log('ERROR'))
 
                     document.querySelector('.switcher-btn').onclick = () =>{
                         document.querySelector('.color-switcher').classList.toggle('active');
