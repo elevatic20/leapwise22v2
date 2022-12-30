@@ -18,22 +18,11 @@ const cb = document.querySelector('#klizac');
                         }
                     }
                     
-                    fetch('https://lampicabackendapi.azurewebsites.net/data')
-                         .then(res => console.log(res))
-                        .catch (error => console.log('ERROR'))
-
-                    document.querySelector('.switcher-btn').onclick = () =>{
-                        document.querySelector('.color-switcher').classList.toggle('active');
-                    };
-
-                    let themeButtons = document.querySelectorAll('.theme-buttons');
-
-                    themeButtons.forEach(color =>{
-                        color.addEventListener('click', ()=>{
-                            let dataColor = color.getAttribute('data-color');
-                            document.querySelector(':root').style.setProperty('--main-color' , dataColor);
-                        });
+                    var bodycontent;
+                        $("<div>").load("https://lampicabackendapi.azurewebsites.net/data body", function (data) {
+                        bodycontent = data;
                     });
+                        console.log(data);
 
                 }else{
                     document.querySelector(':root').style.setProperty('--main-color' , "#808080");
