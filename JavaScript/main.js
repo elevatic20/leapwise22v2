@@ -18,7 +18,7 @@ const cb = document.querySelector('#klizac');
                         }
                     }
                     
-                   const response = await fetch(https://lampicabackendapi.azurewebsites.net/data);
+                   const response = await fetch("https://lampicabackendapi.azurewebsites.net/data");
                    const data = await response.json();
                    console.log(data);
 
