@@ -27,8 +27,8 @@ const cb = document.querySelector('#klizac');
                                 console.log(JSON.parse(request.response));
                                 }
                         } else {
-                                console.log(request)
-                                console.log('error ${request.status}')
+                                console.log(request);
+                                console.log('error ${request.status}');
                         }
 
                 }else{
