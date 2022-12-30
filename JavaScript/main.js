@@ -9,7 +9,7 @@ const cb = document.querySelector('#klizac');
                         document.querySelector('.color-switcher').classList.toggle('active');
                     
                     // dodavanje apija
-                    fetch('https://https://lampicabackendapi.azurewebsites.net/ledOn')
+                    fetch('https://lampicabackendapi.azurewebsites.net/ledOn')
                         .then(function (result) {
                         console.log(result);
                         })
