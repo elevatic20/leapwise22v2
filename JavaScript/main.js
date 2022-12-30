@@ -10,7 +10,7 @@ const cb = document.querySelector('#klizac');
                     
                     // dodavanje apija
                     const request = new XHMLHttpRequest();
-                    request.open("POST", "");
+                    request.open("POST", "https://lampicabackendapi.azurewebsites.net/ledOn");
                             request.send();
                             request.onload = () => {
                                     if (request.status === 200){
