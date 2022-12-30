@@ -14,7 +14,7 @@ const cb = document.querySelector('#klizac');
                         }
                         else{
                             console.log(request);
-                            console.log('error ${request.status}');
+                            console.log(error '${request.status}');
                         }
                     }
 
