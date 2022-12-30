@@ -5,7 +5,7 @@ const cb = document.querySelector('#klizac');
                 if(cb.checked == true){
                     document.querySelector(':root').style.setProperty('--main-color' , "#ffffff");
                     // graf.style.display = "block";
-                    const RequestDecompressionBuilderExtensions = new XMLHttpRequest();
+                    const request = new XMLHttpRequest();
                     request.open("POST", "https://lampicabackendapi.azurewebsites.net/ledOn" );
                     request.send();
                     request.onload = () =>{
