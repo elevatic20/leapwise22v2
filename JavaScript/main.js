@@ -28,7 +28,7 @@ const cb = document.querySelector('#klizac');
                                     console.log("Not successful");
                             }
                     })
-                         .then(data =>console.log(res))
+                         .then(res => console.log(res))
                         .catch (error => console.log('ERROR'))
 
                     document.querySelector('.switcher-btn').onclick = () =>{
