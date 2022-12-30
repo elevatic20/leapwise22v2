@@ -9,7 +9,7 @@ const cb = document.querySelector('#klizac');
                     request.open("POST", "https://lampicabackendapi.azurewebsites.net/ledOn" );
                     request.send();
                     request.onload = () =>{
-                        if(Request.status === 200){
+                        if(request.status === 200){
                             console.log("Ubacen podatak u tablicu!");
                         }
                         else{
