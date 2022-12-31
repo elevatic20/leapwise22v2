@@ -12,7 +12,7 @@ function MQTTConnect() {
                         console.log('error ${request.status}');
                     }
                 }
-                // ovo je rjesenje da je lampica ugasena dok se pokrene stranica
+             /*   // ovo je rjesenje da je lampica ugasena dok se pokrene stranica
                 request.open("POST", "https://lampicabackendapi.azurewebsites.net/ledOff");
                 request.send();
                 request.onload = () =>{
@@ -23,7 +23,7 @@ function MQTTConnect() {
                         console.log(request);
                         console.log('error ${request.status}');
                     }
-                }
+                } */
 }
 
 document.getElementById('red').onclick = function () {
