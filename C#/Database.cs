@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Npgsql;
 using System.Collections.Generic;
 using Newtonsoft.Json;
@@ -14,7 +14,6 @@ namespace backendLampica
     public class TimescaleHelper
     {
         string topic = "SmartLight/turningOnOff";
-        string message = "ledOn";
         Mqtt lampica = new Mqtt();
         
 
@@ -130,17 +129,37 @@ namespace backendLampica
         public void InsertState(bool state)
         {
             try {
+                bool zadnjeStanje = true;
+                bool prazno = true;
                 using (var conn = getConnection())
                 {
+                    using (var cmd = new NpgsqlCommand("SELECT stanje from lampica ORDER BY vrijeme DESC LIMIT 1", conn))
+                    {
+                        using (NpgsqlDataReader rdr = cmd.ExecuteReader())
+                        {
+                            while (rdr.Read())
+                            {
+                                zadnjeStanje = rdr.GetBoolean(0);
+                                prazno = false;
+                                log.Info(rdr.GetBoolean(0));
+                            }
+                        }
+                    }
+                    
                     using (var command = new NpgsqlCommand("INSERT INTO lampica (stanje, vrijeme) VALUES (@state, @time)", conn))
                     {
                         
                         command.Parameters.AddWithValue("state", state);
                         command.Parameters.AddWithValue("time", DateTime.Now);
-                        int nRows = command.ExecuteNonQuery();
+                        int nRows;
+                        if ((zadnjeStanje == true && state == false && prazno != true) || (state == true))
+                            nRows = command.ExecuteNonQuery();
+                        else 
+                            nRows = 0;
 
                         log.Info(String.Format("Number of rows inserted={0}", nRows));
                     }
+                    conn.Close();
                 }
                 lampica.MqttConnect();
                 if (state == true)
@@ -150,7 +169,7 @@ namespace backendLampica
                     lampica.MqttPublish(topic, "ledOff");
                     lampica.MqttDisconnect(topic, "ledOff");
                 }
-            }
+            } 
             catch (Exception ex) {
                 log.Info("Doslo je do pogreske pri unosu podataka u bazu podataka: \n" + ex);
             }
@@ -182,8 +201,6 @@ namespace backendLampica
                 DateTime pon = new DateTime(prviDan.Year, prviDan.Month, prviDan.Day, 0, 0, 0);
                 DateTime ned = pon.AddDays(7);
                 int dan = 0;
-                int prethodniDan = 0;
-                DateTime prethodnoVrijeme = DateTime.Now;
                 DateTime[] tjedan = new DateTime[7];
                 for (int i = 0; i <= 6; i++)
                 {
@@ -203,42 +220,32 @@ namespace backendLampica
                         {
                             dan = rdr.GetDateTime(1).DayOfWeek - pon.DayOfWeek;
                             //ako je pritisnut gumb on, i lampica prije toga vec nije bila upaljena
-                            
+                            //log.Info("Trenutni red " + rdr.GetDateTime(1));
                             if (rdr.GetBoolean(0) == true && upaljena == false)
                             {
-                                upaljena = true;
                                 tjedan[dan] = tjedan[dan].AddHours(-rdr.GetDateTime(1).Hour);
                                 tjedan[dan] = tjedan[dan].AddMinutes(-rdr.GetDateTime(1).Minute);
                                 tjedan[dan] = tjedan[dan].AddSeconds(-rdr.GetDateTime(1).Second);
-                                
-                            }//ako je pritisnut gumb off 
-                            else
+                            }
+                            //ako je lampica prije pritiska gumba off bila sigurno upaljena
+                            if (rdr.GetBoolean(0) == false && upaljena == true)
                             {
-                                if (dan != prethodniDan && upaljena == true)
-                                {
-                                    tjedan[dan - 1] = tjedan[dan - 1].AddDays(1);
-                                }
-                                //ako je lampica prije pritiska gumba off bila sigurno upaljena
-                                if (rdr.GetBoolean(0) == false && upaljena == true)
-                                {
                                     upaljena = false;
                                     tjedan[dan] = tjedan[dan].AddHours(rdr.GetDateTime(1).Hour);
                                     tjedan[dan] = tjedan[dan].AddMinutes(rdr.GetDateTime(1).Minute);
                                     tjedan[dan] = tjedan[dan].AddSeconds(rdr.GetDateTime(1).Second);
-                                }
-
+                                    
                             }
 
-
-
-                            prethodniDan = rdr.GetDateTime(1).DayOfWeek - pon.DayOfWeek;
-                            prethodnoVrijeme = rdr.GetDateTime(1);
+                            
                         }
-                        if (upaljena == true)
+                        if (false)
                         {
+                            //tjedan[dan] = tjedan[dan].AddDays(1);
                             tjedan[dan] = tjedan[dan].AddHours(datum.Hour);
                             tjedan[dan] = tjedan[dan].AddMinutes(datum.Minute);
                             tjedan[dan] = tjedan[dan].AddSeconds(datum.Second);
+                            log.Info("Zadnji " + tjedan[dan]);
                         }
                         //log.Info("Ukupno vrijeme upaljene lampice:");
                         for (int i = 0; i <= 6; i++)
@@ -275,7 +282,25 @@ namespace backendLampica
 
             return vrijednosti;
         }
-       
+
+        public void WebAppConnected()
+        {
+            try
+            {
+                lampica.MqttConnect();
+                lampica.MqttPublish(topic, "webAppConnected");
+                lampica.MqttPublish(topic, "ledOff");
+                InsertState(false);
+                log.Info("Uspjesno povezivanje s lampicom!");
+            }
+            catch(Exception ex)
+            {
+                log.Info("Doslo je do pogreske kod uspostavljanja veze s lampicom: \n" + ex);
+            }
+            
+        }
+
+        
 
 
     }
