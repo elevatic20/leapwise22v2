@@ -1,145 +1,120 @@
-var mqtt;
-var reconnectTimeout = 2000;
-var host = "broker.hivemq.com";
-var port = 8884;
-
-function onConnect() {
-    console.log("Connected");
-    message = new Paho.MQTT.Message("webAppConnected");
-    message.destinationName = "SmartLight/turningOnOff";
-    mqtt.send(message);
-    ledOff = new Paho.MQTT.Message("ledOff");
-    ledOff.destinationName = "SmartLight/turningOnOff";
-    mqtt.send(ledOff);
+// treba dodati webAppConnected u API
+function MQTTConnect() {
+    const request = new XMLHttpRequest();
+                request.open("POST", "https://lampicabackendapi.azurewebsites.net/webAppConnected");
+                request.send();
+                request.onload = () =>{
+                    if(request.status === 200){
+                        console.log("Uspjesno spajanje sa lampicom");
+                    }
+                    else{
+                        console.log(request);
+                        console.log('error ${request.status}');
+                    }
+                }
 }
-
-
-function MQTTconnect() {
-    console.log("Connected to " + host + " " + port);
-    mqtt = new Paho.MQTT.Client(host, port, "mosquitto1");
-    var options = {
-        timeout: 3,
-        onSuccess: onConnect,
-    };
-    mqtt.connect(options);
-}
-
 
 document.getElementById('red').onclick = function () {
-
-    console.log(red);
-    message = new Paho.MQTT.Message("redOn");
-    console.log(message);
-    message.destinationName = "SmartLight/turningOnOff";
-    mqtt.send(message);
+    const request = new XMLHttpRequest();
+                request.open("POST", "https://lampicabackendapi.azurewebsites.net/redOn");
+                request.send();
+                request.onload = () =>{
+                    if(request.status === 200){
+                        console.log("Boja je promijenjena na crvenu!");
+                    }
+                    else{
+                        console.log(request);
+                        console.log('error ${request.status}');
+                    }
+                }
 }
 
 document.getElementById('green').onclick = function () {
-
-    console.log(green);
-    message = new Paho.MQTT.Message("greenOn");
-    console.log(message);
-    message.destinationName = "SmartLight/turningOnOff";
-    mqtt.send(message);
-
+    const request = new XMLHttpRequest();
+                request.open("POST", "https://lampicabackendapi.azurewebsites.net/greenOn");
+                request.send();
+                request.onload = () =>{
+                    if(request.status === 200){
+                        console.log("Boja je promijenjena na zelenu!");
+                    }
+                    else{
+                        console.log(request);
+                        console.log('error ${request.status}');
+                    }
+                }
 }
 
-var blue = false;
 document.getElementById('blue').onclick = function () {
-
-    console.log(blue);
-    message = new Paho.MQTT.Message("blueOn");
-    console.log(message);
-    message.destinationName = "SmartLight/turningOnOff";
-    mqtt.send(message);
-
+    const request = new XMLHttpRequest();
+                request.open("POST", "https://lampicabackendapi.azurewebsites.net/blueOn");
+                request.send();
+                request.onload = () =>{
+                    if(request.status === 200){
+                        console.log("Boja je promijenjena na plavu!");
+                    }
+                    else{
+                        console.log(request);
+                        console.log('error ${request.status}');
+                    }
+                }
 }
 
 document.getElementById('yellow').onclick = function () {
-
-    console.log(yellow);
-    message = new Paho.MQTT.Message("yellowOn");
-    console.log(message);
-    message.destinationName = "SmartLight/turningOnOff";
-    mqtt.send(message);
-
+    const request = new XMLHttpRequest();
+                request.open("POST", "https://lampicabackendapi.azurewebsites.net/yellowOn");
+                request.send();
+                request.onload = () =>{
+                    if(request.status === 200){
+                        console.log("Boja je promijenjena na zutu!");
+                    }
+                    else{
+                        console.log(request);
+                        console.log('error ${request.status}');
+                    }
+                }
 }
 
-var purple = false;
 document.getElementById('purple').onclick = function () {
-
-    console.log(purple);
-    message = new Paho.MQTT.Message("purpleOn");
-    console.log(message);
-    message.destinationName = "SmartLight/turningOnOff";
-    mqtt.send(message);
-
+    const request = new XMLHttpRequest();
+                request.open("POST", "https://lampicabackendapi.azurewebsites.net/purpleOn");
+                request.send();
+                request.onload = () =>{
+                    if(request.status === 200){
+                        console.log("Boja je promijenjena na ljubičastu!");
+                    }
+                    else{
+                        console.log(request);
+                        console.log('error ${request.status}');
+                    }
+                }
 }
 
 document.getElementById('cyan').onclick = function () {
-
-    console.log(cyan);
-    message = new Paho.MQTT.Message("cyanOn");
-    console.log(message);
-    message.destinationName = "SmartLight/turningOnOff";
-    mqtt.send(message);
-
+    const request = new XMLHttpRequest();
+                request.open("POST", "https://lampicabackendapi.azurewebsites.net/cyanOn");
+                request.send();
+                request.onload = () =>{
+                    if(request.status === 200){
+                        console.log("Boja je promijenjena na cijan!");
+                    }
+                    else{
+                        console.log(request);
+                        console.log('error ${request.status}');
+                    }
+                }
 }
 
 document.getElementById('white').onclick = function () {
-
-    console.log(white);
-    message = new Paho.MQTT.Message("ledOn");
-    console.log(message);
-    message.destinationName = "SmartLight/turningOnOff";
-    mqtt.send(message);
-
+    const request = new XMLHttpRequest();
+                request.open("POST", "https://lampicabackendapi.azurewebsites.net/whiteOn");
+                request.send();
+                request.onload = () =>{
+                    if(request.status === 200){
+                        console.log("Boja je promijenjena na bijelu!");
+                    }
+                    else{
+                        console.log(request);
+                        console.log('error ${request.status}');
+                    }
+                }
 }
-
-document.getElementById('klizac').onclick = function () {
-
-    console.log(klizac);
-    message = new Paho.MQTT.Message("ledOn");
-    console.log(message);
-    message.destinationName = "SmartLight/turningOnOff";
-    mqtt.send(message);
-
-}
-
-var klizac = false;
-document.getElementById('klizac').onclick = function () {
-    if (!klizac) {
-        console.log(klizac);
-        message = new Paho.MQTT.Message("ledOn");
-        console.log(message);
-        message.destinationName = "SmartLight/turningOnOff";
-        mqtt.send(message);
-        klizac = true;
-    }
-    else {
-        console.log(klizac);
-        message = new Paho.MQTT.Message("ledOff");
-        console.log(message);
-        message.destinationName = "SmartLight/turningOnOff";
-        mqtt.send(message);
-        klizac = false;
-    }
-}
-
-/* function redOn(){
-    var pressed = true;
-    if (pressed){
-        console.log("redOn");
-        message = new Paho.MQTT.Message("redOn");
-        message.destinationName = "SmartLight/turningOnOff";
-        mqtt.send(message);
-        pressed = false;
-    }
-    else{
-        console.log("redOff");
-        message = new Paho.MQTT.Message("redOff");
-        message.destinationName = "SmartLight/turningOnOff";
-        mqtt.send(message);
-        pressed = true;
-    }
-} */
