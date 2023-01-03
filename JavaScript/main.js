@@ -6,7 +6,7 @@ async function getState(){
     //console.log(data);
     if(data.zadnjeStanje == true){
              console.log("Zadnje stanje je true");
-             document.querySelector(':root').style.setProperty('--main-color' , "#ffffff");
+             document.querySelector(':root').style.setProperty('--main-color' , data.zadnjaBoja);
              cb.checked = true;
              document.querySelector('.switcher-btn').onclick = () =>{
                 document.querySelector('.color-switcher').classList.toggle('active');
