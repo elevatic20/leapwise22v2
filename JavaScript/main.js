@@ -3,6 +3,7 @@ const cb = document.querySelector('#klizac');
 // graf.style.display = "none";
 
 async function getData(){ 
+                        console.log("test");
                         const response = await fetch("https://lampicabackendapi.azurewebsites.net/checkState");
                         const data = await response.json();
                         console.log(data);
