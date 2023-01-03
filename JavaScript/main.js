@@ -6,14 +6,15 @@ async function getData(){
                         const response = await fetch("https://lampicabackendapi.azurewebsites.net/checkState");
                         const data = await response.json();
                         console.log(data);
+                        if(data.zadnjeStanje == true){
+                                 console.log("Zadnje stanje je true");
+                        }
+                        else{
+                                 console.log("Zadnjee stanje je false");
+                        }
 }
 getData();
-if(data.zadnjeStanje == true){
-        console.log("Zadnje stanje je true");
-}else
-{
-        console.log("Zadnjee stanje je false");
-}
+
 
 
 
