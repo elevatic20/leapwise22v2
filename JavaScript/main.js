@@ -192,7 +192,8 @@ async function getData(){
     console.log("Ukupno sati rada: " + suma);
 
     const A = N * suma; // formula --> A = N * t
+    A = A.toFixed(3);
     console.log("Potrošnja el. en. : " + A);
-    document.getElementById("izrPotrosnja").innerHTML = "Ukupna potrošnja lampice: " + A.ToFixed(3) + " Wh!";
+    document.getElementById("izrPotrosnja").innerHTML = "Ukupna potrošnja lampice: " + A + " Wh!";
 }
 getData();
