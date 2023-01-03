@@ -2,7 +2,7 @@ const cb = document.querySelector('#klizac');
 // const graf = document.getElementById("chart");
 // graf.style.display = "none";
 
-async function getData(){ 
+async function getDataa(){ 
                         console.log("test");
                         const response = await fetch("https://lampicabackendapi.azurewebsites.net/checkState");
                         const data = await response.json();
@@ -14,7 +14,7 @@ async function getData(){
                                  console.log("Zadnjee stanje je false");
                         }
 }
-getData();
+getDataa();
 
 
 
