@@ -1,6 +1,22 @@
 const cb = document.querySelector('#klizac');
 // const graf = document.getElementById("chart");
 // graf.style.display = "none";
+
+async function getData(){ 
+                        const response = await fetch("https://lampicabackendapi.azurewebsites.net/checkState");
+                        const data = await response.json();
+                        console.log(data);
+}
+getData();
+if(data.zadnjeStanje == true){
+        console.log("Zadnje stanje je true");
+}else
+{
+        console.log("Zadnjee stanje je false");
+}
+
+
+
         cb.addEventListener('click', ()=>{
                 if(cb.checked == true){
                     document.querySelector(':root').style.setProperty('--main-color' , "#ffffff");
