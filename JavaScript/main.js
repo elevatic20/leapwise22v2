@@ -18,6 +18,14 @@ async function getState(){
 }
 getState();
 
+let themeButtons = document.querySelectorAll('.theme-buttons');
+
+                    themeButtons.forEach(color =>{
+                        color.addEventListener('click', ()=>{
+                            let dataColor = color.getAttribute('data-color');
+                            document.querySelector(':root').style.setProperty('--main-color' , dataColor);
+                        });
+                    });
 
 // const graf = document.getElementById("chart");
 // graf.style.display = "none";
@@ -41,14 +49,14 @@ getState();
                         document.querySelector('.color-switcher').classList.toggle('active');
                     };
 
-                    let themeButtons = document.querySelectorAll('.theme-buttons');
+                /*    let themeButtons = document.querySelectorAll('.theme-buttons');
 
                     themeButtons.forEach(color =>{
                         color.addEventListener('click', ()=>{
                             let dataColor = color.getAttribute('data-color');
                             document.querySelector(':root').style.setProperty('--main-color' , dataColor);
                         });
-                    });
+                    }); */
                    
                 }else{
                     const request = new XMLHttpRequest();
