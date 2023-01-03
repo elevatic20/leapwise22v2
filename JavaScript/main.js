@@ -1,24 +1,26 @@
 const cb = document.querySelector('#klizac');
+
+async function getState(){ 
+    const response = await fetch("https://lampicabackendapi.azurewebsites.net/checkState");
+    const data = await response.json();
+    //console.log(data);
+    if(data.zadnjeStanje == true){
+             console.log("Zadnje stanje je true");
+             document.querySelector(':root').style.setProperty('--main-color' , "#ffffff");
+             cb.checked = true;
+             document.querySelector('.switcher-btn').onclick = () =>{
+                document.querySelector('.color-switcher').classList.toggle('active');
+            };
+    }
+    else{
+             console.log("Zadnje stanje je false");
+    }
+}
+getState();
+
+
 // const graf = document.getElementById("chart");
 // graf.style.display = "none";
-
-async function getData(){ 
-                        console.log("test");
-                        const response = await fetch("https://lampicabackendapi.azurewebsites.net/checkState");
-                        const data = await response.json();
-                        console.log(data);
-                        if(data.zadnjeStanje == true){
-                                 console.log("Zadnje stanje je true");
-                        }
-                        else{
-                                 console.log("Zadnjee stanje je false");
-                        }
-}
-getData();
-
-
-
-
         cb.addEventListener('click', ()=>{
                 if(cb.checked == true){
                     document.querySelector(':root').style.setProperty('--main-color' , "#ffffff");
@@ -176,3 +178,21 @@ document.getElementById('white').onclick = function () {
                         }
                     }
 }
+
+
+//potrosnja elektricne energije
+
+async function getData(){ 
+    const response = await fetch("https://lampicabackendapi.azurewebsites.net/data");
+    const data = await response.json();
+    
+    const N = 0.204; // izračunato prema formuli ---> N = U * I  ----> N = 3.4W * 60*10^(-3)A
+    // stranica sa spec LED diode: https://e-radionica.com/hr/5mm-rgb-led-dioda-zajednicka-katoda.html
+    const suma = data.Monday + data.Tuesday + data.Wednesday + data.Thursday + data.Friday + data.Saturday + data.Sunday;
+    console.log("Ukupno sati rada: " + suma);
+
+    const A = N * suma; // formula --> A = N * t
+    console.log("Potrošnja el. en. : " + A);
+    document.getElementById("izrPotrosnja").innerHTML = "Ukupna potrošnja lampice: " + A + " Wh!";
+}
+getData();
