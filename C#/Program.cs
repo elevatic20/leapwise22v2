@@ -19,7 +19,10 @@ namespace backendLampica
             var builder = WebApplication.CreateBuilder(args);
             //builder.Services.AddDatabaseDeveloperPageExceptionFilter();
             var app = builder.Build();
+            //provjera povezanosti s bazom podataka
+            ts.CheckDatabaseConnection();
             app.MapPost("/webAppConnected", () =>ts.WebAppConnected());
+            app.MapGet("/checkState", () => ts.checkState());
             app.MapPost("/ledOn", () => ts.InsertState(true));
             app.MapPost("/ledOff", () => ts.InsertState(false));
             app.MapPost("/redOn", () => ts.ChangeColor("redOn"));
