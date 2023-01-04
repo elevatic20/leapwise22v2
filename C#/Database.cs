@@ -2,6 +2,7 @@ using System;
 using Npgsql;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using System.Drawing;
 
 
 namespace backendLampica
@@ -28,16 +29,21 @@ namespace backendLampica
         private static string conn_str = "";
         class podaci
         {
-            public int Monday;
-            public int Tuesday;
-            public int Wednesday;
-            public int Thursday;
-            public int Friday;
-            public int Saturday;
-            public int Sunday;
+            public float Monday;
+            public float Tuesday;
+            public float Wednesday;
+            public float Thursday;
+            public float Friday;
+            public float Saturday;
+            public float Sunday;
                 
         }
 
+        class stanje
+        {
+            public bool zadnjeStanje;
+            public string zadnjaBoja;
+        }
 
         //
         // This is the constructor for our TimescaleHelper class
@@ -76,7 +82,7 @@ namespace backendLampica
                 Connection.Open();
             }
             catch(Exception ex) {
-                log.Info("Doslo je do pogreske tijekom uspostavljanja veze: \n" + ex);
+                log.Info("Doslo je do pogreske tijekom uspostavljanja veze s bazom podataka: \n" + ex);
             }
             return Connection;
         }
@@ -129,7 +135,7 @@ namespace backendLampica
         public void InsertState(bool state)
         {
             try {
-                bool zadnjeStanje = true;
+                int zadnjeStanje = -1;
                 bool prazno = true;
                 using (var conn = getConnection())
                 {
@@ -139,11 +145,12 @@ namespace backendLampica
                         {
                             while (rdr.Read())
                             {
-                                zadnjeStanje = rdr.GetBoolean(0);
+                                zadnjeStanje = Convert.ToInt32(rdr.GetBoolean(0));
                                 prazno = false;
-                                log.Info(rdr.GetBoolean(0));
+                                log.Info(zadnjeStanje);
                             }
                         }
+                        
                     }
                     
                     using (var command = new NpgsqlCommand("INSERT INTO lampica (stanje, vrijeme) VALUES (@state, @time)", conn))
@@ -151,14 +158,31 @@ namespace backendLampica
                         
                         command.Parameters.AddWithValue("state", state);
                         command.Parameters.AddWithValue("time", DateTime.Now);
-                        int nRows;
-                        if ((zadnjeStanje == true && state == false && prazno != true) || (state == true))
-                            nRows = command.ExecuteNonQuery();
-                        else 
-                            nRows = 0;
+                        
+                        if ((zadnjeStanje == 1 && state == false && prazno != true) || (state == true && zadnjeStanje != Convert.ToInt32(state)))
+                            command.ExecuteNonQuery();
 
-                        log.Info(String.Format("Number of rows inserted={0}", nRows));
+                        log.Info("Unesen je novi podatak u bazu podataka");
+                        
                     }
+                    /*
+                    using (var command = new NpgsqlCommand("INSERT INTO bojalampice (boja, vrijeme) VALUES (@color, @time)", conn))
+                    {
+
+                        command.Parameters.AddWithValue("color", "whiteOn");
+                        command.Parameters.AddWithValue("time", DateTime.Now);
+
+                        if (state == false)
+                        {
+                            command.ExecuteNonQuery();
+                            lampica.MqttPublish(topic, "whiteOn");
+                        }
+
+
+                        log.Info("Pocetna boja je bijela");
+                        
+                    }*/
+
                     conn.Close();
                 }
                 lampica.MqttConnect();
@@ -180,6 +204,20 @@ namespace backendLampica
         {
             try
             {
+
+                using (var conn = getConnection())
+                {
+                    using (var command = new NpgsqlCommand("INSERT INTO bojalampice (boja, vrijeme) VALUES(@color, @time)", conn))
+                    {
+                        command.Parameters.AddWithValue("color", color);
+                        command.Parameters.AddWithValue("time", DateTime.Now);
+                        command.ExecuteNonQuery();
+                        
+                    }
+                    conn.Close();
+                }
+
+                
                 lampica.MqttPublish(topic, color);
                 log.Info("Boja lampice je promijenjena na: " + color.Substring(0, color.Length-2));
             }
@@ -209,70 +247,79 @@ namespace backendLampica
 
                 bool upaljena = false;
 
-                var conn = getConnection();
-                using (var cmd = new NpgsqlCommand("SELECT stanje, vrijeme from lampica WHERE vrijeme BETWEEN @pon AND @ned ORDER BY id ", conn))
+                using (var conn = getConnection())
                 {
-                    cmd.Parameters.AddWithValue("pon", pon);
-                    cmd.Parameters.AddWithValue("ned", ned);
-                    using (NpgsqlDataReader rdr = cmd.ExecuteReader())
+                    using (var cmd = new NpgsqlCommand("SELECT stanje, vrijeme from lampica WHERE vrijeme BETWEEN @pon AND @ned ORDER BY id ", conn))
                     {
-                        while (rdr.Read())
+                        cmd.Parameters.AddWithValue("pon", pon);
+                        cmd.Parameters.AddWithValue("ned", ned);
+                        using (NpgsqlDataReader rdr = cmd.ExecuteReader())
                         {
-                            dan = rdr.GetDateTime(1).DayOfWeek - pon.DayOfWeek;
-                            //ako je pritisnut gumb on, i lampica prije toga vec nije bila upaljena
-                            //log.Info("Trenutni red " + rdr.GetDateTime(1));
-                            if (rdr.GetBoolean(0) == true && upaljena == false)
+                            while (rdr.Read())
                             {
-                                tjedan[dan] = tjedan[dan].AddHours(-rdr.GetDateTime(1).Hour);
-                                tjedan[dan] = tjedan[dan].AddMinutes(-rdr.GetDateTime(1).Minute);
-                                tjedan[dan] = tjedan[dan].AddSeconds(-rdr.GetDateTime(1).Second);
-                            }
-                            //ako je lampica prije pritiska gumba off bila sigurno upaljena
-                            if (rdr.GetBoolean(0) == false && upaljena == true)
-                            {
+                                dan = rdr.GetDateTime(1).DayOfWeek - (pon.DayOfWeek + 1);
+
+                                //ako je pritisnut gumb on, i lampica prije toga vec nije bila upaljena
+
+
+                                if (rdr.GetBoolean(0) == true && upaljena == false)
+                                {
+                                    tjedan[dan] = tjedan[dan].AddHours(-rdr.GetDateTime(1).Hour);
+                                    tjedan[dan] = tjedan[dan].AddMinutes(-rdr.GetDateTime(1).Minute);
+                                    tjedan[dan] = tjedan[dan].AddSeconds(-rdr.GetDateTime(1).Second);
+                                    upaljena = true;
+
+                                }
+                                //ako je lampica prije pritiska gumba off bila sigurno upaljena
+                                if (rdr.GetBoolean(0) == false && upaljena == true)
+                                {
                                     upaljena = false;
                                     tjedan[dan] = tjedan[dan].AddHours(rdr.GetDateTime(1).Hour);
                                     tjedan[dan] = tjedan[dan].AddMinutes(rdr.GetDateTime(1).Minute);
                                     tjedan[dan] = tjedan[dan].AddSeconds(rdr.GetDateTime(1).Second);
-                                    
+
+                                }
+
+
+                            }
+                            if (upaljena == true)
+                            {
+
+                                tjedan[dan] = tjedan[dan].AddHours(datum.Hour);
+                                tjedan[dan] = tjedan[dan].AddMinutes(datum.Minute);
+                                tjedan[dan] = tjedan[dan].AddSeconds(datum.Second);
+
                             }
 
-                            
+                            for (int i = 0; i <= 6; i++)
+                            {
+
+
+                                vrijednosti = vrijednosti + " " + tjedan[i].Hour;
+                            }
+
+                            podaci podatak = new podaci()
+                            {
+                                Monday = tjedan[0].Hour + (float)Math.Round(tjedan[0].Minute / 60.0f, 2),
+                                Tuesday = tjedan[1].Hour + (float)Math.Round(tjedan[1].Minute / 60.0f, 2),
+                                Wednesday = tjedan[2].Hour + (float)Math.Round(tjedan[2].Minute / 60.0f, 2),
+                                Thursday = tjedan[3].Hour + (float)Math.Round(tjedan[3].Minute / 60.0f, 2),
+                                Friday = tjedan[4].Hour + (float)Math.Round(tjedan[4].Minute / 60.0f, 2),
+                                Saturday = tjedan[5].Hour + (float)Math.Round(tjedan[5].Minute / 60.0f, 2),
+                                Sunday = tjedan[6].Hour + (float)Math.Round(tjedan[6].Minute / 60.0f, 2),
+
+
+                            };
+                            vrijednosti = JsonConvert.SerializeObject(podatak);
+
                         }
-                        if (false)
-                        {
-                            //tjedan[dan] = tjedan[dan].AddDays(1);
-                            tjedan[dan] = tjedan[dan].AddHours(datum.Hour);
-                            tjedan[dan] = tjedan[dan].AddMinutes(datum.Minute);
-                            tjedan[dan] = tjedan[dan].AddSeconds(datum.Second);
-                            log.Info("Zadnji " + tjedan[dan]);
-                        }
-                        //log.Info("Ukupno vrijeme upaljene lampice:");
-                        for (int i = 0; i <= 6; i++)
-                        {
-                            //log.Info(tjedan[i]);
-                            vrijednosti = vrijednosti + " " + tjedan[i].Hour;
-                        }
-
-                        podaci podatak = new podaci()
-                        {
-                            Monday = tjedan[0].Hour,
-                            Tuesday = tjedan[1].Hour,
-                            Wednesday = tjedan[2].Hour,
-                            Thursday = tjedan[3].Hour,
-                            Friday= tjedan[4].Hour,
-                            Saturday= tjedan[5].Hour,
-                            Sunday= tjedan[6].Hour,
-
-
-                        };
-                        vrijednosti = JsonConvert.SerializeObject(podatak);
-
+                        
                     }
-
+                    conn.Close();
                 }
-                conn.Close();
-                log.Info("Uspjesno su prikazani podaci");
+
+
+                log.Info("Uspjesno su prikazani podaci za tekuci tjedan");
             }
             catch(Exception ex)
             {
@@ -289,8 +336,8 @@ namespace backendLampica
             {
                 lampica.MqttConnect();
                 lampica.MqttPublish(topic, "webAppConnected");
-                lampica.MqttPublish(topic, "ledOff");
-                InsertState(false);
+                //lampica.MqttPublish(topic, "ledOff");
+                //InsertState(false);
                 log.Info("Uspjesno povezivanje s lampicom!");
             }
             catch(Exception ex)
@@ -300,7 +347,63 @@ namespace backendLampica
             
         }
 
-        
+        public string checkState()
+        {
+            string vrijednost = "";
+            try {
+                
+                stanje podatak = new stanje();
+                podatak.zadnjeStanje = false;
+                podatak.zadnjaBoja = "gray";
+                using (var conn = getConnection())
+                {
+                    using (var cmd = new NpgsqlCommand("SELECT stanje from lampica ORDER BY vrijeme DESC LIMIT 1", conn))
+                    {
+                        using (NpgsqlDataReader rdr = cmd.ExecuteReader())
+                        {
+                            while (rdr.Read())
+                            {
+                                podatak.zadnjeStanje = rdr.GetBoolean(0);
+                            }
+                        }
+                        vrijednost = JsonConvert.SerializeObject(podatak);
+                        
+                    }
+                    if(podatak.zadnjeStanje == true)
+                        using (var cmd = new NpgsqlCommand("SELECT boja from bojalampice ORDER BY vrijeme DESC LIMIT 1", conn))
+                        {
+                            using (NpgsqlDataReader rdr = cmd.ExecuteReader())
+                            {
+                                while (rdr.Read())
+                                {
+                                    podatak.zadnjaBoja = rdr.GetString(0);
+                                    switch (podatak.zadnjaBoja)
+                                    {
+                                        case "redOn": podatak.zadnjaBoja = "#ff0000"; break;
+                                        case "greenOn": podatak.zadnjaBoja = "#00ff00"; break;
+                                        case "blueOn": podatak.zadnjaBoja = "#0000ff"; break;
+                                        case "yellowOn": podatak.zadnjaBoja = "#ffff00"; break;
+                                        case "purpleOn": podatak.zadnjaBoja = "#b100b1"; break;
+                                        case "whiteOn": podatak.zadnjaBoja = "#ffffff"; break;
+                                        case "cyanOn": podatak.zadnjaBoja = "#00ffff"; break;
+                                    
+                                    }
+                                }
+                            }
+                        vrijednost = JsonConvert.SerializeObject(podatak);
+                        
+                        }
+
+                    log.Info("Uspjesno je provjereno zadnje stanje lampice");
+                    conn.Close();
+                }
+
+            }
+            catch(Exception ex) {
+                log.Info("Doslo je do pogreske pri provjeri trenutnog stanja lampice: " + ex);
+            }
+            return vrijednost;
+        }
 
 
     }
