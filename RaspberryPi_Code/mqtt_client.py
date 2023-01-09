@@ -50,6 +50,19 @@ def on_message(client, userdata, msg):
 
     #stringovi - ledOn:upali ledicu, redOn:upali crvenu, greenOn:upali zelenu, blueOn:upali plavu
     #nekajOff:isto kak i gore samo kaj gasi
+
+    if str(msg.payload) == "b'vuzgiBlaz'":
+        pwm = GPIO.PWM(27, 1000)
+        pwm.start(0)
+        while True:
+            for duty in (0, 101, 1)
+                pwm.ChangeDutyCycle(duty)
+                sleep(0.01)
+            sleep(1)
+
+            for duty in (100, -1, -1)
+                pwm.ChangeDutyCycle(duty)
+                sleep(0.01)
     
     if str(msg.payload) == "b'ledOn'":
         GPIO.output(27, GPIO.LOW)
