@@ -208,4 +208,21 @@ elem.addEventListener("input", rangeValue);
 */
 
 
-/* RGB promjena boja lampice */
+/* RGB promjena boja lampice 
+
+document.getElementById('rgb').onclick = function () {
+    const request = new XMLHttpRequest();
+    request.open("POST", "https://lampicabackendapi.azurewebsites.net/whiteOn");
+    request.send();
+    request.onload = () => {
+        if (request.status === 200) {
+            console.log("RGB boje!");
+        }
+        else {
+            console.log(request);
+            console.log('error ${request.status}');
+        }
+    }
+}
+
+*/
