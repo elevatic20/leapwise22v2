@@ -29,24 +29,20 @@ themeButtons.forEach(color => {
 });
 
 
-/*RGB PROMJENA POZADINE - NIJE SLOZENO
+// RGB PROMJENA POZADINE - NIJE SLOZENO
 
-document.getElementById("rgb").addEventListener('click', () =>{
-    document.querySelector(':root').style.setProperty('--main-color', "#2596be");
-});
-    
-*/
+// var boje = ['red', 'green','blue'];
+// var i = 0;
 
-/*
-*
-* Tu treba sloziti da se menja bg-color za svaki dimming ak se zeli
-*
-*    let rangeInput = document.getElementById('dimming');
-*    rangeInput.addEventListener('input', () =>{
-*    document.querySelector(':root').style.setProperty('--main-color', "#2596be");
-*    })
-*
-*/
+// document.getElementById('rgb').addEventListener("click", changeColor);
+//     function changeColor() {
+//         document.querySelector(':root').style.setProperty('--main-color', boje[i]);
+//         i++;
+//         if(i>=3){
+//             i=0;
+//         }
+//     }
+// setInterval(changeColor, 1000);
 
 // ZA GRAF
 // const graf = document.getElementById("chart");
