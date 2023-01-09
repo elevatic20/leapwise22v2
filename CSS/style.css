@@ -1,6 +1,5 @@
 :root{
   --main-color: gray;
-
 }
 
 *{
@@ -17,7 +16,7 @@
   background: var(--main-color);
   display:flex;
   align-items: center;
-  justify-content: center;
+  justify-content: center; 
   padding-bottom: 80px;
 }
 
@@ -99,7 +98,7 @@
   height: 34px;
 }
 
-.switch input { 
+.switch input {
   opacity: 0;
   width: 0;
   height: 0;
@@ -150,6 +149,17 @@ input:checked + .slider:before {
 
 .slider.round:before {
   border-radius: 50%;
+}
+
+/*Range slider*/
+#dimming{
+  display: grid;
+  cursor: pointer;
+  margin-top: 5px;
+  margin-left: 300px;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
 }
 
 
@@ -218,16 +228,27 @@ input:checked + .slider:before {
     cursor: pointer;
     font-size: 35px;
   }
-  
+
+  /*Range slider*/
+  #dimming{
+    display: grid;
+    cursor: pointer;
+    margin-top: 5px;
+    margin-left: 145px;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+
   /*Chart*/
-  
+
   .chart{
     text-align: center;
     margin-left: 15px;
     margin-right: 15px;
     min-height: 80vh;
   }
-  
+
   #myChart{
     margin-left: 2px;
     margin-top: 50px;
@@ -236,7 +257,7 @@ input:checked + .slider:before {
     box-shadow: 0 10px 15px rgba(0,0,0,.3);
     background: whitesmoke;
   }
-  
+
   .chart h1{
     background: whitesmoke;
     text-align: center;
