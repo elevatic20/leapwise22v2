@@ -152,17 +152,7 @@ input:checked + .slider:before {
 }
 
 /*Range slider*/
-#dimming{
-  display: grid;
-  cursor: pointer;
-  margin-top: 5px;
-  margin-left: 300px;
-  background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
-
-input[type="range" i]{
+input#dimming{
   display: grid;
   cursor: pointer;
   margin-top: 5px;
@@ -240,17 +230,7 @@ input[type="range" i]{
   }
 
   /*Range slider*/
-  #dimming{
-    display: grid;
-    cursor: pointer;
-    margin-top: 5px;
-    margin-left: 145px;
-    background-color: #ccc;
-    -webkit-transition: .4s;
-    transition: .4s;
-  }
-
-  input[type="range" i]{
+  input#dimming{
     display: grid;
     cursor: pointer;
     margin-top: 5px;
