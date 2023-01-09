@@ -142,7 +142,7 @@ var rangeValue = function(){
     // Ako je dimming 25%
     if(newValue == 25){
         const request = new XMLHttpRequest();
-        request.open("POST", "https://lampicabackendapi.azurewebsites.net/redOn");
+        request.open("POST", "https://lampicabackendapi.azurewebsites.net/dimm25");
         request.send();
         request.onload = () => {
             if (request.status === 200) {
@@ -158,7 +158,7 @@ var rangeValue = function(){
     // Ako je dimming 50%
     if(newValue == 50){
         const request = new XMLHttpRequest();
-        request.open("POST", "https://lampicabackendapi.azurewebsites.net/greenOn");
+        request.open("POST", "https://lampicabackendapi.azurewebsites.net/dimm50");
         request.send();
         request.onload = () => {
             if (request.status === 200) {
@@ -174,7 +174,7 @@ var rangeValue = function(){
     // Ako je dimming 75%
     if(newValue == 75){
         const request = new XMLHttpRequest();
-        request.open("POST", "https://lampicabackendapi.azurewebsites.net/blueOn");
+        request.open("POST", "https://lampicabackendapi.azurewebsites.net/dimm75");
         request.send();
         request.onload = () => {
             if (request.status === 200) {
@@ -190,7 +190,7 @@ var rangeValue = function(){
     // Ako je dimming 100%
     if(newValue == 100){
         const request = new XMLHttpRequest();
-        request.open("POST", "https://lampicabackendapi.azurewebsites.net/purpleOn");
+        request.open("POST", "https://lampicabackendapi.azurewebsites.net/dimm100");
         request.send();
         request.onload = () => {
             if (request.status === 200) {
@@ -212,7 +212,7 @@ elem.addEventListener("input", rangeValue);
 
 document.getElementById('rgb').onclick = function () {
     const request = new XMLHttpRequest();
-    request.open("POST", "https://lampicabackendapi.azurewebsites.net/whiteOn");
+    request.open("POST", "https://lampicabackendapi.azurewebsites.net/rgbOn");
     request.send();
     request.onload = () => {
         if (request.status === 200) {

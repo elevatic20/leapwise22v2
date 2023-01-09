@@ -1,5 +1,22 @@
 const cb = document.querySelector('#klizac');
 
+let i = 0;
+const colors = ['#ff0000', '#ffff00','#00ff00', '#00ffff', '#0000ff', '#ff00ff', '#ffffff'];
+let intervalId;
+function changeColor(){
+    let bojice = colors[i];
+    document.querySelector(':root').style.setProperty('--main-color', bojice);
+    i=(i+1)%colors.length;
+}
+function start(){
+    intervalId = setInterval(changeColor,1000);
+}
+
+function stop(){
+    clearInterval(intervalId);
+}
+
+
 async function getState() {
     const response = await fetch("https://lampicabackendapi.azurewebsites.net/checkState");
     const data = await response.json();
@@ -25,24 +42,15 @@ themeButtons.forEach(color => {
     color.addEventListener('click', () => {
         let dataColor = color.getAttribute('data-color');
         document.querySelector(':root').style.setProperty('--main-color', dataColor);
+        
+        //RGB - stop()
+        stop();
     });
 });
 
+//RGB - start()
+document.getElementById("rgb").addEventListener("click", start);
 
-// RGB PROMJENA POZADINE - NIJE SLOZENO
-
-// var boje = ['red', 'green','blue'];
-// var i = 0;
-
-// document.getElementById('rgb').addEventListener("click", changeColor);
-//     function changeColor() {
-//         document.querySelector(':root').style.setProperty('--main-color', boje[i]);
-//         i++;
-//         if(i>=3){
-//             i=0;
-//         }
-//     }
-// setInterval(changeColor, 1000);
 
 // ZA GRAF
 // const graf = document.getElementById("chart");
@@ -98,6 +106,7 @@ cb.addEventListener('click', () => {
         }
 
         document.getElementById('dimming').style.display = "none";
+        stop();
         document.querySelector(':root').style.setProperty('--main-color', "#808080");
         document.querySelector('.color-switcher').classList.remove('active');
         // graf.style.display = "none";
