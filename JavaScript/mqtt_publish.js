@@ -208,7 +208,7 @@ elem.addEventListener("input", rangeValue);
 
 
 
-// RGB promjena boja lampice  
+// RGB promjena boja lampice   
 
 document.getElementById('rgb').onclick = function () {
     const request = new XMLHttpRequest();
