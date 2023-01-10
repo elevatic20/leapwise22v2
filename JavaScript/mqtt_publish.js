@@ -131,7 +131,7 @@ document.getElementById('white').onclick = function () {
     }
 }
 
-/* Dimming lampice 
+// Dimming lampice 
 
 var elem = document.getElementById('dimming');
 
@@ -205,10 +205,10 @@ var rangeValue = function(){
 }
 elem.addEventListener("input", rangeValue);
 
-*/
 
 
-/* RGB promjena boja lampice 
+
+// RGB promjena boja lampice 
 
 document.getElementById('rgb').onclick = function () {
     const request = new XMLHttpRequest();
@@ -225,4 +225,3 @@ document.getElementById('rgb').onclick = function () {
     }
 }
 
-*/
