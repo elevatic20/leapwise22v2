@@ -187,7 +187,7 @@ var rangeValue = function(){
         }
     }
 
-    // Ako je dimming 100%
+    // Ako je  dimming 100%
     if(newValue == 100){
         const request = new XMLHttpRequest();
         request.open("POST", "https://lampicabackendapi.azurewebsites.net/dimm100");
@@ -208,7 +208,7 @@ elem.addEventListener("input", rangeValue);
 
 
 
-// RGB promjena boja lampice 
+// RGB promjena boja lampice  
 
 document.getElementById('rgb').onclick = function () {
     const request = new XMLHttpRequest();
