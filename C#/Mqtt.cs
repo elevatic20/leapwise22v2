@@ -58,7 +58,7 @@ namespace backendLampica
             try
             {
                 MqttConnect();
-                MqttPublish(topic, "webAppConnected");
+                ChangeProperty("webAppConnected");
                 log.Info("Uspjesno povezivanje s lampicom!");
             }
             catch (Exception ex)
@@ -72,14 +72,15 @@ namespace backendLampica
             try {
                 MqttConnect();
                 if (state == true) {
-                    MqttPublish(topic, "ledOn");
+                    ChangeProperty("ledOn");
+                    ChangeProperty("whiteOn");
                 }
                 else
                 {
-                    MqttPublish(topic, "ledOff");
+                    ChangeProperty("ledOff");
                     MqttDisconnect(topic, "ledOff");
                 }
-                log.Info("Uspjesna promjena stanja lampice.");
+                
             }catch(Exception ex)
             {
                 log.Info("Doslo je do pogreske s MQTT brokerom pri promjeni stanja lampice: "+ex);
