@@ -49,7 +49,7 @@ namespace backendLampica
 
             void ChangeColor(string color)
             {
-                ts.ChangeColor(color);
+                ts.InsertColor(color);
                 lampica.ChangeProperty(color);
             }
         }
