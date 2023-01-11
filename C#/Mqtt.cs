@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using uPLibrary.Networking.M2Mqtt;
 using uPLibrary.Networking.M2Mqtt.Messages;
 
@@ -7,7 +7,7 @@ namespace backendLampica
     public class Mqtt
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
+        string topic = "SmartLight/turningOnOff";
         MqttClient client = new MqttClient("broker.hivemq.com");
         public void MqttConnect()
         {   // Spajanje na brokea
@@ -49,9 +49,48 @@ namespace backendLampica
                 log.Info("Disconnected from broker");
             }
             catch(Exception ex) {
-                log.Info("Doslo je do pogreske pri odspajanju s brokera");
+                log.Info("Doslo je do pogreske pri odspajanju s brokera: \n"+ ex);
             }
             
         }
+        public void WebAppConnected()
+        {
+            try
+            {
+                MqttConnect();
+                MqttPublish(topic, "webAppConnected");
+                log.Info("Uspjesno povezivanje s lampicom!");
+            }
+            catch (Exception ex)
+            {
+                log.Info("Doslo je do pogreske kod uspostavljanja veze s lampicom: \n" + ex);
+            }
+
+        }
+        public void ChangeState(bool state)
+        {
+            try {
+                MqttConnect();
+                if (state == true) {
+                    MqttPublish(topic, "ledOn");
+                }
+                else
+                {
+                    MqttPublish(topic, "ledOff");
+                    MqttDisconnect(topic, "ledOff");
+                }
+                log.Info("Uspjesna promjena stanja lampice.");
+            }catch(Exception ex)
+            {
+                log.Info("Doslo je do pogreske s MQTT brokerom pri promjeni stanja lampice: "+ex);
+            }
+        }
+        public void ChangeProperty(string property)
+        {
+            MqttPublish(topic, property);
+            log.Info("Promijenjeno je svojstvo lampice: " + property);
+        }
+
+        
     }
 }
