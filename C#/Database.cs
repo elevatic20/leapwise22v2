@@ -15,9 +15,6 @@ namespace backendLampica
     public class TimescaleHelper
     {
         string topic = "SmartLight/turningOnOff";
-        Mqtt lampica = new Mqtt();
-        
-
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
 
@@ -147,7 +144,6 @@ namespace backendLampica
                             {
                                 zadnjeStanje = Convert.ToInt32(rdr.GetBoolean(0));
                                 prazno = false;
-                                log.Info(zadnjeStanje);
                             }
                         }
                         
@@ -162,37 +158,13 @@ namespace backendLampica
                         if ((zadnjeStanje == 1 && state == false && prazno != true) || (state == true && zadnjeStanje != Convert.ToInt32(state)))
                             command.ExecuteNonQuery();
 
-                        log.Info("Unesen je novi podatak u bazu podataka");
+                        log.Info("Uneseno je novo stanje u bazu podataka: "+state );
                         
                     }
-                    /*
-                    using (var command = new NpgsqlCommand("INSERT INTO bojalampice (boja, vrijeme) VALUES (@color, @time)", conn))
-                    {
-
-                        command.Parameters.AddWithValue("color", "whiteOn");
-                        command.Parameters.AddWithValue("time", DateTime.Now);
-
-                        if (state == false)
-                        {
-                            command.ExecuteNonQuery();
-                            lampica.MqttPublish(topic, "whiteOn");
-                        }
-
-
-                        log.Info("Pocetna boja je bijela");
-                        
-                    }*/
-
+                    
                     conn.Close();
                 }
-                lampica.MqttConnect();
-                if (state == true)
-                    lampica.MqttPublish(topic, "ledOn");
-                else
-                {
-                    lampica.MqttPublish(topic, "ledOff");
-                    lampica.MqttDisconnect(topic, "ledOff");
-                }
+                
             } 
             catch (Exception ex) {
                 log.Info("Doslo je do pogreske pri unosu podataka u bazu podataka: \n" + ex);
@@ -216,10 +188,7 @@ namespace backendLampica
                     }
                     conn.Close();
                 }
-
-                
-                lampica.MqttPublish(topic, color);
-                log.Info("Boja lampice je promijenjena na: " + color.Substring(0, color.Length-2));
+                log.Info("Unesena je nova boja u tablicu");
             }
             catch (Exception ex)
             {
@@ -330,22 +299,6 @@ namespace backendLampica
             return vrijednosti;
         }
 
-        public void WebAppConnected()
-        {
-            try
-            {
-                lampica.MqttConnect();
-                lampica.MqttPublish(topic, "webAppConnected");
-                //lampica.MqttPublish(topic, "ledOff");
-                //InsertState(false);
-                log.Info("Uspjesno povezivanje s lampicom!");
-            }
-            catch(Exception ex)
-            {
-                log.Info("Doslo je do pogreske kod uspostavljanja veze s lampicom: \n" + ex);
-            }
-            
-        }
 
         public string checkState()
         {
@@ -386,6 +339,7 @@ namespace backendLampica
                                         case "purpleOn": podatak.zadnjaBoja = "#b100b1"; break;
                                         case "whiteOn": podatak.zadnjaBoja = "#ffffff"; break;
                                         case "cyanOn": podatak.zadnjaBoja = "#00ffff"; break;
+                                        case "rgbOn": podatak.zadnjaBoja = "rgbOn"; break;
                                     
                                     }
                                 }
