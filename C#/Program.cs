@@ -13,28 +13,45 @@ namespace backendLampica
             // contains all of the methods for interacting with
             // TimescaleDB for this tutorial
             TimescaleHelper ts = new TimescaleHelper();
+            Mqtt lampica = new Mqtt();
 
 
-            
             var builder = WebApplication.CreateBuilder(args);
             //builder.Services.AddDatabaseDeveloperPageExceptionFilter();
             var app = builder.Build();
             //provjera povezanosti s bazom podataka
             ts.CheckDatabaseConnection();
-            app.MapPost("/webAppConnected", () =>ts.WebAppConnected());
-            app.MapGet("/checkState", () => ts.checkState());
-            app.MapPost("/ledOn", () => ts.InsertState(true));
-            app.MapPost("/ledOff", () => ts.InsertState(false));
-            app.MapPost("/redOn", () => ts.ChangeColor("redOn"));
-            app.MapPost("/greenOn", () => ts.ChangeColor("greenOn"));
-            app.MapPost("/blueOn", () => ts.ChangeColor("blueOn"));
-            app.MapPost("/yellowOn", () => ts.ChangeColor("yellowOn"));
-            app.MapPost("/purpleOn", () => ts.ChangeColor("purpleOn"));
-            app.MapPost("/cyanOn", () => ts.ChangeColor("cyanOn"));
-            app.MapPost("/whiteOn", () => ts.ChangeColor("whiteOn"));
+            app.MapPost("/webAppConnected", () => lampica.WebAppConnected());
+            app.MapPost("/ledOn", () => InsertState(true));
+            app.MapPost("/ledOff", () => InsertState(false));
+            app.MapPost("/redOn", () => ChangeColor("redOn"));
+            app.MapPost("/greenOn", () => ChangeColor("greenOn"));
+            app.MapPost("/blueOn", () => ChangeColor("blueOn"));
+            app.MapPost("/yellowOn", () => ChangeColor("yellowOn"));
+            app.MapPost("/purpleOn", () => ChangeColor("purpleOn"));
+            app.MapPost("/cyanOn", () => ChangeColor("cyanOn"));
+            app.MapPost("/whiteOn", () => ChangeColor("whiteOn"));
+            app.MapPost("/rgbOn", () => ChangeColor("rgbOn"));
+            app.MapPost("/dimm25", () => lampica.ChangeProperty("dimm25"));
+            app.MapPost("/dimm50", () => lampica.ChangeProperty("dimm50"));
+            app.MapPost("/dimm75", () => lampica.ChangeProperty("dimm75"));
+            app.MapPost("/dimm100", () => lampica.ChangeProperty("dimm100"));
             app.MapGet("/data", () => ts.getData());
+            app.MapGet("/checkState", () => ts.checkState());
 
             app.Run();
+
+            void InsertState(bool state)
+            {
+                ts.InsertState(state);
+                lampica.ChangeState(state);
+            }
+
+            void ChangeColor(string color)
+            {
+                ts.ChangeColor(color);
+                lampica.ChangeProperty(color);
+            }
         }
 
 
