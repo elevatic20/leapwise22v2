@@ -20,10 +20,16 @@ function stop(){
 async function getState() {
     const response = await fetch("https://lampicabackendapi.azurewebsites.net/checkState");
     const data = await response.json();
-    //console.log(data);
+    // console.log(data);
     if (data.zadnjeStanje == true) {
         console.log("Zadnje stanje je true");
-        document.querySelector(':root').style.setProperty('--main-color', data.zadnjaBoja);
+
+        if(data.zadnjaBoja == "rgbOn"){
+            start();
+        }else{
+            document.querySelector(':root').style.setProperty('--main-color', data.zadnjaBoja);
+        }
+        
         document.getElementById('dimming').style.display = "grid";
         cb.checked = true;
         document.querySelector('.switcher-btn').onclick = () => {
@@ -31,7 +37,7 @@ async function getState() {
         };
     }
     else {
-        console.log("Zadnje stanje je false");
+        console.log("Zadnje stanje lampice je false");
     }
 }
 getState();
@@ -127,11 +133,11 @@ async function getData() {
     const N = 0.204; // izračunato prema formuli ---> N = U * I  ----> N = 3.4W * 60*10^(-3)A
     // stranica sa spec LED diode: https://e-radionica.com/hr/5mm-rgb-led-dioda-zajednicka-katoda.html
     const suma = data.Monday + data.Tuesday + data.Wednesday + data.Thursday + data.Friday + data.Saturday + data.Sunday;
-    console.log("Ukupno sati rada: " + suma);
+    // console.log("Ukupno sati rada: " + suma);
 
     var A = N * suma; // formula --> A = N * t
     A = A.toFixed(3);
-    console.log("Potrošnja el. en. : " + A);
+    // console.log("Potrošnja el. en. : " + A);
     document.getElementById("izrPotrosnja").innerHTML = "Ukupna potrošnja lampice: " + A + " Wh!";
 }
 getData();
