@@ -154,11 +154,16 @@ namespace backendLampica
                         
                         command.Parameters.AddWithValue("state", state);
                         command.Parameters.AddWithValue("time", DateTime.Now);
-                        
-                        if ((zadnjeStanje == 1 && state == false && prazno != true) || (state == true && zadnjeStanje != Convert.ToInt32(state)))
-                            command.ExecuteNonQuery();
 
-                        log.Info("Uneseno je novo stanje u bazu podataka: "+state );
+                        if ((zadnjeStanje == 1 && state == false && prazno != true) || (state == true && zadnjeStanje != Convert.ToInt32(state)))
+                        {
+                            if (state == true)
+                                InsertColor("whiteOn");
+                            command.ExecuteNonQuery();
+                            log.Info("Uneseno je novo stanje u bazu podataka: " + state);
+                        }
+
+                        
                         
                     }
                     
@@ -172,7 +177,7 @@ namespace backendLampica
             
         }
 
-        public void ChangeColor(string color)
+        public void InsertColor(string color)
         {
             try
             {
@@ -188,7 +193,7 @@ namespace backendLampica
                     }
                     conn.Close();
                 }
-                log.Info("Unesena je nova boja u tablicu");
+                log.Info("Unesena je nova boja u tablicu: " + color);
             }
             catch (Exception ex)
             {
