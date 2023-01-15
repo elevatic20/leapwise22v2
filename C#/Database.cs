@@ -3,7 +3,7 @@ using Npgsql;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using System.Drawing;
-
+using System.Globalization;
 
 namespace backendLampica
 {
@@ -207,9 +207,16 @@ namespace backendLampica
             string vrijednosti = "";
             try
             {
-                DateTime datum = DateTime.Now;
-                var razlika = datum.DayOfWeek - System.Threading.Thread.CurrentThread.CurrentCulture.DateTimeFormat.FirstDayOfWeek;
-                DateTime prviDan = datum.AddDays(-razlika);
+                
+                DateTime datum = DateTime.Now; //trenutni datum
+                var redniBrojDana = (int)datum.DayOfWeek;  //ned - 0, pon - 1, uto - 2, sri - 3, cet - 4, pet - 5 sub - 6
+                DateTime prviDan;
+                if (redniBrojDana == 0)
+                {
+                    prviDan = datum.AddDays(-6); //buduci je ned - 0, onda treba oduzeti 6 dana da se dode do pon
+                }
+                else
+                prviDan = datum.AddDays(-(redniBrojDana - 1)); //inace, treba oduzeti broj dana - 1
                 DateTime pon = new DateTime(prviDan.Year, prviDan.Month, prviDan.Day, 0, 0, 0);
                 DateTime ned = pon.AddDays(7);
                 int dan = 0;
@@ -231,8 +238,12 @@ namespace backendLampica
                         {
                             while (rdr.Read())
                             {
-                                dan = rdr.GetDateTime(1).DayOfWeek - (pon.DayOfWeek + 1);
 
+                                if (rdr.GetDateTime(1).DayOfWeek == 0)
+                                    dan = 6;
+                                else
+                                dan = rdr.GetDateTime(1).DayOfWeek - (pon.DayOfWeek);
+                                log.Info("Trenutni redak: "+dan);
                                 //ako je pritisnut gumb on, i lampica prije toga vec nije bila upaljena
 
 
