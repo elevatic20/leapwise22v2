@@ -30,7 +30,7 @@ async function getState() {
             document.querySelector(':root').style.setProperty('--main-color', data.zadnjaBoja);
         }
         
-        document.getElementById('dimming').style.display = "grid";
+        // document.getElementById('dimming').style.display = "grid";
         cb.checked = true;
         document.querySelector('.switcher-btn').onclick = () => {
             document.querySelector('.color-switcher').classList.toggle('active');
@@ -55,7 +55,7 @@ themeButtons.forEach(color => {
 });
 
 //RGB - start()
-document.getElementById("rgb").addEventListener("click", start);
+// document.getElementById("rgb").addEventListener("click", start);
 
 
 // ZA GRAF
@@ -63,12 +63,12 @@ document.getElementById("rgb").addEventListener("click", start);
 // graf.style.display = "none";
 
 // Range slider = none
-document.getElementById('dimming').style.display = "none";
+// document.getElementById('dimming').style.display = "none";
 
 cb.addEventListener('click', () => {
     if (cb.checked == true) {
         document.querySelector(':root').style.setProperty('--main-color', "#ffffff");
-        document.getElementById('dimming').style.display = "grid";
+        // document.getElementById('dimming').style.display = "grid";
         // graf.style.display = "block";
         
         const request = new XMLHttpRequest();
@@ -111,7 +111,7 @@ cb.addEventListener('click', () => {
             }
         }
 
-        document.getElementById('dimming').style.display = "none";
+        // document.getElementById('dimming').style.display = "none";
         stop();
         document.querySelector(':root').style.setProperty('--main-color', "#808080");
         document.querySelector('.color-switcher').classList.remove('active');

@@ -131,97 +131,97 @@ document.getElementById('white').onclick = function () {
     }
 }
 
-// Dimming lampice 
+// // Dimming lampice 
 
-var elem = document.getElementById('dimming');
+// var elem = document.getElementById('dimming');
 
-var rangeValue = function(){
-    var newValue = elem.value;
-    console.log(newValue);
+// var rangeValue = function(){
+//     var newValue = elem.value;
+//     console.log(newValue);
     
-    // Ako je dimming 25%
-    if(newValue == 25){
-        const request = new XMLHttpRequest();
-        request.open("POST", "https://lampicabackendapi.azurewebsites.net/dimm25");
-        request.send();
-        request.onload = () => {
-            if (request.status === 200) {
-                console.log("Dimming je postavljen na 25% !");
-            }
-            else {
-                console.log(request);
-                console.log('error ${request.status}');
-            }
-        }
-    }
+//     // Ako je dimming 25%
+//     if(newValue == 25){
+//         const request = new XMLHttpRequest();
+//         request.open("POST", "https://lampicabackendapi.azurewebsites.net/dimm25");
+//         request.send();
+//         request.onload = () => {
+//             if (request.status === 200) {
+//                 console.log("Dimming je postavljen na 25% !");
+//             }
+//             else {
+//                 console.log(request);
+//                 console.log('error ${request.status}');
+//             }
+//         }
+//     }
 
-    // Ako je dimming 50%
-    if(newValue == 50){
-        const request = new XMLHttpRequest();
-        request.open("POST", "https://lampicabackendapi.azurewebsites.net/dimm50");
-        request.send();
-        request.onload = () => {
-            if (request.status === 200) {
-                console.log("Dimming je postavljen na 50% !");
-            }
-            else {
-                console.log(request);
-                console.log('error ${request.status}');
-            }
-        }
-    }
+//     // Ako je dimming 50%
+//     if(newValue == 50){
+//         const request = new XMLHttpRequest();
+//         request.open("POST", "https://lampicabackendapi.azurewebsites.net/dimm50");
+//         request.send();
+//         request.onload = () => {
+//             if (request.status === 200) {
+//                 console.log("Dimming je postavljen na 50% !");
+//             }
+//             else {
+//                 console.log(request);
+//                 console.log('error ${request.status}');
+//             }
+//         }
+//     }
 
-    // Ako je dimming 75%
-    if(newValue == 75){
-        const request = new XMLHttpRequest();
-        request.open("POST", "https://lampicabackendapi.azurewebsites.net/dimm75");
-        request.send();
-        request.onload = () => {
-            if (request.status === 200) {
-                console.log("Dimming je postavljen na 75% !");
-            }
-            else {
-                console.log(request);
-                console.log('error ${request.status}');
-            }
-        }
-    }
+//     // Ako je dimming 75%
+//     if(newValue == 75){
+//         const request = new XMLHttpRequest();
+//         request.open("POST", "https://lampicabackendapi.azurewebsites.net/dimm75");
+//         request.send();
+//         request.onload = () => {
+//             if (request.status === 200) {
+//                 console.log("Dimming je postavljen na 75% !");
+//             }
+//             else {
+//                 console.log(request);
+//                 console.log('error ${request.status}');
+//             }
+//         }
+//     }
 
-    // Ako je  dimming 100%
-    if(newValue == 100){
-        const request = new XMLHttpRequest();
-        request.open("POST", "https://lampicabackendapi.azurewebsites.net/dimm100");
-        request.send();
-        request.onload = () => {
-            if (request.status === 200) {
-                console.log("Dimming je postavljen na 100% !");
-            }
-            else {
-                console.log(request);
-                console.log('error ${request.status}');
-            }
-        }
-    } 
-}
-elem.addEventListener("input", rangeValue);
-
-
+//     // Ako je  dimming 100%
+//     if(newValue == 100){
+//         const request = new XMLHttpRequest();
+//         request.open("POST", "https://lampicabackendapi.azurewebsites.net/dimm100");
+//         request.send();
+//         request.onload = () => {
+//             if (request.status === 200) {
+//                 console.log("Dimming je postavljen na 100% !");
+//             }
+//             else {
+//                 console.log(request);
+//                 console.log('error ${request.status}');
+//             }
+//         }
+//     } 
+// }
+// elem.addEventListener("input", rangeValue);
 
 
-// RGB promjena boja lampice   
 
-document.getElementById('rgb').onclick = function () {
-    const request = new XMLHttpRequest();
-    request.open("POST", "https://lampicabackendapi.azurewebsites.net/rgbOn");
-    request.send();
-    request.onload = () => {
-        if (request.status === 200) {
-            console.log("RGB boje!");
-        }
-        else {
-            console.log(request);
-            console.log('error ${request.status}');
-        }
-    }
-}
+
+// // RGB promjena boja lampice   
+
+// document.getElementById('rgb').onclick = function () {
+//     const request = new XMLHttpRequest();
+//     request.open("POST", "https://lampicabackendapi.azurewebsites.net/rgbOn");
+//     request.send();
+//     request.onload = () => {
+//         if (request.status === 200) {
+//             console.log("RGB boje!");
+//         }
+//         else {
+//             console.log(request);
+//             console.log('error ${request.status}');
+//         }
+//     }
+// }
 
