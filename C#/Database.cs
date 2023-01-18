@@ -352,7 +352,7 @@ namespace backendLampica
                                         case "greenOn": podatak.zadnjaBoja = "#00ff00"; break;
                                         case "blueOn": podatak.zadnjaBoja = "#0000ff"; break;
                                         case "yellowOn": podatak.zadnjaBoja = "#ffff00"; break;
-                                        case "purpleOn": podatak.zadnjaBoja = "#b100b1"; break;
+                                        case "purpleOn": podatak.zadnjaBoja = "#ff00ff"; break;
                                         case "whiteOn": podatak.zadnjaBoja = "#ffffff"; break;
                                         case "cyanOn": podatak.zadnjaBoja = "#00ffff"; break;
                                         case "rgbOn": podatak.zadnjaBoja = "rgbOn"; break;
