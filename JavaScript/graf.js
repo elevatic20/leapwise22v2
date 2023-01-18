@@ -1,7 +1,7 @@
 const ctx = document.getElementById('myChart');
 
 async function getData() {
-  const response = await fetch("https://lampicabackendapi.azurewebsites.net/data");
+  const response = await fetch("https://lampicaapi.azurewebsites.net/data");
   const data = await response.json();
   // console.log(data);
   new Chart(ctx, {

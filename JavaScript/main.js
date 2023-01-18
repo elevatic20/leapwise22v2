@@ -18,7 +18,7 @@ function stop(){
 
 
 async function getState() {
-    const response = await fetch("https://lampicabackendapi.azurewebsites.net/checkState");
+    const response = await fetch("https://lampicaapi.azurewebsites.net/checkState");
     const data = await response.json();
     // console.log(data);
     if (data.zadnjeStanje == true) {
@@ -72,7 +72,7 @@ cb.addEventListener('click', () => {
         // graf.style.display = "block";
         
         const request = new XMLHttpRequest();
-        request.open("POST", "https://lampicabackendapi.azurewebsites.net/ledOn");
+        request.open("POST", "https://lampicaapi.azurewebsites.net/ledOn");
         request.send();
         request.onload = () => {
             if (request.status === 200) {
@@ -99,7 +99,7 @@ cb.addEventListener('click', () => {
 
     } else {
         const request = new XMLHttpRequest();
-        request.open("POST", "https://lampicabackendapi.azurewebsites.net/ledOff");
+        request.open("POST", "https://lampicaapi.azurewebsites.net/ledOff");
         request.send();
         request.onload = () => {
             if (request.status === 200) {
@@ -127,7 +127,7 @@ cb.addEventListener('click', () => {
 // Potrosnja elektricne energije
 
 async function getData() {
-    const response = await fetch("https://lampicabackendapi.azurewebsites.net/data");
+    const response = await fetch("https://lampicaapi.azurewebsites.net/data");
     const data = await response.json();
 
     const N = 0.204; // izračunato prema formuli ---> N = U * I  ----> N = 3.4W * 60*10^(-3)A
